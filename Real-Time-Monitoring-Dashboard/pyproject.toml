@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "fast-kafka-es"
+version = "0.1.0"
+description = "A hobby project build on top of fastAPI, ES and kafka."
+authors = ["fahad-md-kamal <faahad.hossain@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+fastapi = {extras = ["all"], version = "^0.103.1"}
+uvicorn = {extras = ["standared"], version = "^0.23.2"}
+elasticsearch = "^8.9.0"
+kafka-python = "^2.0.2"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
