@@ -1,7 +1,7 @@
 import json
 from kafka import KafkaConsumer
 from elasticsearch import Elasticsearch
-
+import asyncio
 
 es = Elasticsearch(
     [{'host': 'localhost', 'port': 9200, "scheme": "http"}],
@@ -19,16 +19,22 @@ consumer = KafkaConsumer(
     **kafka_consumer_conf
 )
 
-while True:
-    kafka_messages = consumer.poll(timeout_ms=1000)
 
-    data = []
-    for _, messages in kafka_messages.items():
-        for message in messages:
-            res = es.index(
-                index='monitoring-data-topic', 
-                id=message.value["timestamp"], 
-                document=message.value
-            )
-            print("Consumed : ", message.value, "\t", "Stored : ", res["_shards"]["successful"])
-    
+async def consume():
+
+    while True:
+        kafka_messages = consumer.poll(timeout_ms=1000)
+
+        for _, messages in kafka_messages.items():
+            for message in messages:
+                res = es.index(
+                    index=message.value["topic_group"], 
+                    id=message.value["timestamp"], 
+                    document=message.value
+                )
+                print("Consumed: ", message.value, end="\t")
+                print("Stored : ", res["_shards"]["successful"])
+
+
+if __name__ == "__main__":
+    asyncio.run(consume())
