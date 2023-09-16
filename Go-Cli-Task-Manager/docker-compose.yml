@@ -1,0 +1,17 @@
+version: "3.7"
+
+
+services:
+
+  db:
+    container_name: cobra_db
+    image: postgres
+    ports:
+      - 5433:5432
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=cobra_db
+    volumes:
+      - ./data:/var/lib
+
