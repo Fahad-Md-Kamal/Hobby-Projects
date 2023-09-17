@@ -35,6 +35,9 @@ async def consume():
                 print("Consumed: ", message.value, end="\t")
                 print("Stored : ", res["_shards"]["successful"])
 
+def main():
+    asyncio.run(consume())
+
 
 if __name__ == "__main__":
-    asyncio.run(consume())
+    main()
